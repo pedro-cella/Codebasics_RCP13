@@ -20,7 +20,6 @@
 --              => Sorted the results by `trip_percentage` in descending order.
 --
 -- PROJECT => 02 Database
--- PROJECT => 02 Database
 --         => 08 Tables
 ----------------------------------------------------------
 SELECT
@@ -29,11 +28,13 @@ SELECT
     ROUND(SUM(ft.fare_amount)/NULLIF(SUM(ft.distance_travelled_km),0), 1) AS avg_fare_per_km,
     ROUND(SUM(ft.fare_amount)/NULLIF(COUNT(DISTINCT ft.trip_id),0),1) AS avg_fare_per_trip,
 	ROUND(100.0 * COUNT(DISTINCT ft.trip_id) / 
-          (SELECT COUNT(DISTINCT trip_id) FROM fact_trips), 2) AS trip_percentage
+          (SELECT COUNT(DISTINCT trip_id) FROM fact_trips), 2) AS contribution_to_total_trips
 FROM
 	fact_trips ft
-INNER JOIN dim_city dc ON ft.city_id = dc.city_id
+INNER JOIN 
+	dim_city dc ON ft.city_id = dc.city_id
 GROUP BY 
 	dc.city_name
 ORDER BY 
-	trip_percentage DESC;
+	contribution_to_total_trips DESC;
+    
