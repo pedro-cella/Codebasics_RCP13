@@ -29,3 +29,4 @@ ORDER BY
     trip_percentage DESC;
 ```
 ### Result
+![Query Result](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_1.png)
