@@ -54,3 +54,5 @@ GROUP BY
     dc.city_name, dd.month_name, mtt.total_target_trips;
 
 ```
+### Result
+![Query Result 2](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_2.png)
