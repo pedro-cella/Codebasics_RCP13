@@ -109,3 +109,46 @@ ORDER BY
 ```
 ### Result
 ![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_3.png)
+
+## **Business Request 4: Identify Cities with Highest and Lowest Total New Passengers**
+### Query
+```sql
+SELECT
+    city_name,
+    total_new_passengers,
+    'Top 3' AS city_category
+FROM (
+    SELECT
+        dc.city_name,
+        SUM(fps.new_passengers) AS total_new_passengers
+    FROM fact_passenger_summary fps
+    INNER JOIN dim_city dc ON fps.city_id = dc.city_id
+    GROUP BY
+        dc.city_name
+    ORDER BY
+        total_new_passengers DESC
+    LIMIT 3
+) AS top_cities
+
+UNION ALL
+
+SELECT
+    city_name,
+    total_new_passengers,
+    'Bottom 3' AS city_category
+FROM (
+    SELECT
+        dc.city_name,
+        SUM(fps.new_passengers) AS total_new_passengers
+    FROM fact_passenger_summary fps
+    INNER JOIN dim_city dc ON fps.city_id = dc.city_id
+    GROUP BY
+        dc.city_name
+    ORDER BY
+        total_new_passengers ASC
+    LIMIT 3
+) AS bottom_cities;
+
+```
+### Result
+![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_4.png)
