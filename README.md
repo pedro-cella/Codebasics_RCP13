@@ -152,3 +152,33 @@ FROM (
 ```
 ### Result
 ![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_4.png)
+
+## **Business Request 5: Identify Month with Highest Revenue for Each City**
+### Query
+```sql
+SELECT
+    city_name,
+    month_name,
+    revenue,
+    ROUND((revenue / total_city_revenue) * 100, 2) AS percentage_contribution
+FROM (
+    SELECT
+        dc.city_name,
+        dd.month_name,
+        RANK() OVER (PARTITION BY dc.city_name ORDER BY SUM(ft.fare_amount) DESC) AS highest_revenue_month,
+        SUM(ft.fare_amount) AS revenue,
+        SUM(SUM(ft.fare_amount)) OVER (PARTITION BY dc.city_name) AS total_city_revenue
+    FROM
+        fact_trips ft
+    INNER JOIN dim_city dc ON ft.city_id = dc.city_id
+    INNER JOIN dim_date dd ON ft.date = dd.date
+    GROUP BY
+        dc.city_name, dd.month_name
+) AS highest_revenue_month
+WHERE highest_revenue_month = 1
+ORDER BY
+    city_name;
+
+```
+### Result
+![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_5.png)
