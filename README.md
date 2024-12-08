@@ -10,6 +10,9 @@ However, the Chief of Operations, Bruce Haryali, wanted this immediately but the
 
 **Contest Description:** https://codebasics.io/challenge/codebasics-resume-project-challenge
 
+## About this specific part
+This project includes SQL-based reporting to address important business questions outlined in the document ad-hoc-requests.pdf
+
 ## **Business Request 1: City-Level Fare and Trip Summary Report**
 ### Query
 ```sql
