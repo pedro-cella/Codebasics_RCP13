@@ -182,3 +182,29 @@ ORDER BY
 ```
 ### Result
 ![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_5.png)
+
+## **Business Request 6: Repeat Passenger Rate Analysis**
+### Query
+```sql
+SELECT
+    dc.city_name,
+    dd.month_name AS month,
+    fps.total_passengers,
+    fps.repeat_passengers,
+    ROUND(SUM(fps.repeat_passengers) / SUM(fps.total_passengers) * 100.0, 2) AS monthly_repeat_passenger_rate,
+    ROUND(
+        SUM(SUM(fps.repeat_passengers)) OVER (PARTITION BY dc.city_name) /
+        SUM(SUM(fps.total_passengers)) OVER (PARTITION BY dc.city_name) * 100.0, 2
+    ) AS city_repeat_passenger_rate
+FROM
+    fact_passenger_summary fps
+INNER JOIN dim_city dc ON fps.city_id = dc.city_id
+INNER JOIN dim_date dd ON fps.month = dd.start_of_month
+GROUP BY
+    dc.city_name, fps.total_passengers, dd.month_name, dd.start_of_month, fps.repeat_passengers
+ORDER BY
+    dc.city_name, dd.start_of_month;
+
+```
+### Result
+![Query Result 3](https://github.com/pedro-cella/Codebasics_RCP13/blob/main/img/business_request_6.png)
